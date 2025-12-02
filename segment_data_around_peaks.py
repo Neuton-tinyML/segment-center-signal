@@ -189,8 +189,9 @@ def main(df):
 
 # Define the desired training window size
 TRAINING_WINDOW_SIZE = 100
+gesture = 'swipe_right'
 
-# read data
+# read data with one non-continuous gesture samples
 df = pd.read_csv('sample_data.csv', on_bad_lines='skip')
 # make sure there are no NaN values
 assert df.isnull().sum().sum() == 0
@@ -218,5 +219,5 @@ df_segmented = main(df)
 plot_segments(df_segmented, n_segments = 5)
 
 # save processed data
-df_segmented.to_csv('processed.csv', index = False)
+df_segmented.to_csv(f'processed_{gesture}.csv', index = False)
 
