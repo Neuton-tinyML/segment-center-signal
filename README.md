@@ -12,4 +12,8 @@ Data processing function `segment_data_around_peaks.main` applies to separate fi
 
 The only required argument is the `TRAINING_WINDOW_SIZE` - constant in the code, which corresponds to the desired window size inside which the signal will be centered.
 
+Additional arguments:
+`gesture` - for correct processed file naming.
+`nrows_to_remove` - idle data at the beginning and end of dataframe to remove.
+
 Find the usage example below in `segment_data_around_peaks`

@@ -184,12 +184,39 @@ def main(df):
     return df_segmented
 
 
+def remove_nrows(df, nrows, first=True):
+    """
+    Removes the first n_windows from the input DataFrame.
+
+    Parameters:
+    -----------
+    df : pandas.DataFrame
+        The input DataFrame from which to remove the windows.
+    nrows: int
+        The number of rows to remove from the beginning of the DataFrame.
+    first: bool
+        If True, removes rows from the beginning of the DataFrame, else from end.
+
+    Returns:
+    --------
+    pandas.DataFrame
+        A new DataFrame with the first n_windows removed.
+    
+    """
+    if first:
+        df_cleaned = df.iloc[nrows : ].reset_index(drop=True)
+    else:
+        df_cleaned = df.iloc[ : -nrows].reset_index(drop=True)
+    return df_cleaned
+
+
 # =======================================================================
 # MAIN SCRIPT EXECUTION EXAMPLE
 
 # Define the desired training window size
 TRAINING_WINDOW_SIZE = 100
 gesture = 'swipe_right'
+nrows_to_remove = 400
 
 # read data with one non-continuous gesture samples
 df = pd.read_csv('sample_data.csv', on_bad_lines='skip')
@@ -197,6 +224,11 @@ df = pd.read_csv('sample_data.csv', on_bad_lines='skip')
 assert df.isnull().sum().sum() == 0
 # set proper column names
 df.columns = ['aX', 'aY', 'aZ', 'gX', 'gY', 'gZ', 'target']
+
+# remove first and last nrows
+df = remove_nrows(df, nrows_to_remove, first=True)
+df = remove_nrows(df, nrows_to_remove, first=False)
+
 # reset index
 df.reset_index(drop=True, inplace=True)
 
